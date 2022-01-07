@@ -1,25 +1,20 @@
 package br.com.firedev.desafiokitsubackend.controller;
 
 import br.com.firedev.desafiokitsubackend.model.Anime;
-import br.com.firedev.desafiokitsubackend.service.AnimeService;
+import br.com.firedev.desafiokitsubackend.service.ConsumerApiKitsu;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
 
-@RestController
-@RequestMapping("/anime")
+@Controller
 public class AnimeController {
 
     @Autowired
-    private AnimeService animeService;
+    private ConsumerApiKitsu service;
 
-    @GetMapping("/1")
-    public ResponseEntity consultarAnimes(){
-        Anime[] anime = animeService.returnAnimes();
-
-        return ResponseEntity.ok(anime);
+    @GetMapping(value = "/searchAnime")
+    public void getAnimeById() {
+        Anime anime = service.consultAnime("anime?filter[id]=1");
+        System.out.println(anime);
     }
-
 }

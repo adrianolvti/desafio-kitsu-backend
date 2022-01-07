@@ -1,10 +1,13 @@
 package br.com.firedev.desafiokitsubackend.model;
 
-import lombok.Data;
-
-@Data
 public class Anime {
+    private String type;
 
-    private String id;
+    public String getType() {
+        return type;
+    }
 
+    public void setType(String type) {
+        this.type = type;
+    }
 }
