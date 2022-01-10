@@ -1,19 +1,30 @@
 package br.com.firedev.desafiokitsubackend.service;
 
-import br.com.firedev.desafiokitsubackend.model.Anime;
-import org.springframework.beans.factory.annotation.Value;
+import br.com.firedev.desafiokitsubackend.model.Data;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
+import org.springframework.web.reactive.function.client.WebClient;
+import reactor.core.publisher.Mono;
 
 @Service
 public class ConsumerApiKitsu {
 
-    @Value("${url.kitsu}")
-    private String url;
+    @Autowired
+    private WebClient webClient;
 
-    public Anime consultAnime(String uri) {
-        String fullUrl = url + uri;
-        RestTemplate restTemplate = new RestTemplate();
-        return restTemplate.getForObject(fullUrl, Anime.class);
+    public Data consultAnime(String codesAnime) {
+
+        Mono<Data> monoData = this.webClient
+                .method(HttpMethod.GET)
+                .uri("/anime/{code}", codesAnime)
+                .retrieve()
+                .bodyToMono(Data.class);
+
+        Data data = monoData.block();
+
+        System.out.println(data);
+
+        return data;
     }
 }
