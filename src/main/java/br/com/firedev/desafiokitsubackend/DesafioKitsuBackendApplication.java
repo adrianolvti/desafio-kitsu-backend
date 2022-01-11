@@ -12,7 +12,7 @@ public class DesafioKitsuBackendApplication {
 
     //Definindo um bean
     @Bean
-    public WebClient webClient(WebClient.Builder builder){
+    public WebClient webClient(WebClient.Builder builder) {
         return builder
                 .baseUrl("https://kitsu.io/api/edge")
                 .defaultHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)

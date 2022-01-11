@@ -1,6 +1,8 @@
 package br.com.firedev.desafiokitsubackend.service;
 
-import br.com.firedev.desafiokitsubackend.model.Data;
+import br.com.firedev.desafiokitsubackend.model.ResponseEpisode;
+import br.com.firedev.desafiokitsubackend.model.ResponseList;
+import br.com.firedev.desafiokitsubackend.model.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Service;
@@ -13,18 +15,61 @@ public class ConsumerApiKitsu {
     @Autowired
     private WebClient webClient;
 
-    public Data consultAnime(String codesAnime) {
+    // Retorna um anime ou um mangá por ID
+    public Response consult(String type, String id) {
 
-        Mono<Data> monoData = this.webClient
+        Mono<Response> monoData = this.webClient
                 .method(HttpMethod.GET)
-                .uri("/anime/{code}", codesAnime)
+                .uri("/{type}/{code}", type, id)
                 .retrieve()
-                .bodyToMono(Data.class);
+                .bodyToMono(Response.class);
 
-        Data data = monoData.block();
-
-        System.out.println(data);
+        Response data = monoData.block();
 
         return data;
     }
+
+    // Retorna uma lista com os animes ou mangás mais populares
+    public ResponseList consultMostPopular(String type) {
+
+        Mono<ResponseList> monoData = this.webClient
+                .method(HttpMethod.GET)
+                .uri("/trending/{type}", type)
+                .retrieve()
+                .bodyToMono(ResponseList.class);
+
+        ResponseList data = monoData.block();
+
+        return data;
+
+    }
+
+    // Retorna uma pesquisa com filtro de Animes ou Mangás
+    public ResponseList filteredSearch(String type, String filter, String search) {
+
+        Mono<ResponseList> monoData = this.webClient
+                .method(HttpMethod.GET)
+                .uri("/{type}?filter[{filter}]={search}", type, filter, search)
+                .retrieve()
+                .bodyToMono(ResponseList.class);
+
+        ResponseList data = monoData.block();
+
+        return data;
+
+    }
+
+    // Retorna informações de um episódio específico
+    public ResponseEpisode searchSpecificEpisode(String episodeId) {
+        Mono<ResponseEpisode> monoData = this.webClient
+                .method(HttpMethod.GET)
+                .uri("/episodes/{episodeId}", episodeId)
+                .retrieve()
+                .bodyToMono(ResponseEpisode.class);
+
+        ResponseEpisode data = monoData.block();
+
+        return data;
+    }
+
 }
