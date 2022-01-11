@@ -12,6 +12,7 @@ import reactor.core.publisher.Mono;
 @Service
 public class ConsumerApiKitsu {
 
+    //Injetando o Bean criado na classe Main
     @Autowired
     private WebClient webClient;
 
@@ -21,7 +22,7 @@ public class ConsumerApiKitsu {
         Mono<Response> monoData = this.webClient
                 .method(HttpMethod.GET)
                 .uri("/{type}/{code}", type, id)
-                .retrieve()
+                .retrieve() // Dispara a requisição Http
                 .bodyToMono(Response.class);
 
         Response data = monoData.block();

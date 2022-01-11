@@ -1,10 +1,15 @@
 package br.com.firedev.desafiokitsubackend.model;
 
-import com.fasterxml.jackson.annotation.JsonAutoDetect;
-
 import java.util.List;
 
-@JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
 public class ResponseList {
     private List<AnimeAndMangaModel> data;
+
+    public List<AnimeAndMangaModel> getData() {
+        return data;
+    }
+
+    public void setData(List<AnimeAndMangaModel> data) {
+        this.data = data;
+    }
 }
